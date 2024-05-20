@@ -6,6 +6,8 @@ import re
 import pandas as pd
 import time
 
+test = 1 # set to '1' if you test. anything else to scrape for real
+
 columns = ["Player Name",
            "Position",
            "Club",
@@ -41,7 +43,10 @@ columns = ["Player Name",
 
 big_5_all_player_data_fbref = pd.DataFrame(columns=columns)
 
-filename = 'C:/Users/Radu Leonte/Desktop/MSc Courses/Data Science Project/scraper 1/all_players.txt'
+if test == 1:
+    filename = 'some_players_URL_for_test.txt'
+else:
+    filename = 'all_players_URL.txt'
 
 with open(filename, 'r') as file:
     urls = file.readlines()
@@ -174,7 +179,7 @@ for url in urls:
             big_5_all_player_data_fbref = pd.concat([big_5_all_player_data_fbref, new_row], ignore_index=True)
             success = True  # Set success to True to exit the loop
 
-            print(x) # counter to track progress
+            print(f"URL number {x} out of 2653 done") # counter to track progress
             x=x+1
             time.sleep(4)
 
@@ -187,8 +192,34 @@ for url in urls:
             time.sleep(5)
             break  # Exit loop on other errors
 
-big_5_all_player_data_fbref.to_csv('C:/Users/Radu Leonte/Desktop/MSc Courses/Data Science Project/scraper 1/big_5_all_player_data.csv', index=False)
-big_5_all_player_data_fbref.to_excel('C:/Users/Radu Leonte/Desktop/MSc Courses/Data Science Project/scraper 1/big_5_all_player_data.xlsx', index=False)
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Danilo') & (big_5_all_player_data_fbref['Club'] == 'Nottingham Forest'), 'Player Name'] =  'Danilo_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Danilo') & (big_5_all_player_data_fbref['Club'] == 'Juventus'), 'Player Name'] =  'Danilo_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Fernando') & (big_5_all_player_data_fbref['Club'] == 'Almería'), 'Player Name'] =  'Fernando_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Fernando') & (big_5_all_player_data_fbref['Club'] == 'Internacional'), 'Player Name'] =  'Fernando_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Juan Cruz') & (big_5_all_player_data_fbref['Club'] == 'Verona'), 'Player Name'] =  'Juan Cruz_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Juan Cruz') & (big_5_all_player_data_fbref['Club'] == 'Leganés'), 'Player Name'] =  'Juan Cruz_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Mamadou Coulibaly') & (big_5_all_player_data_fbref['Club'] == 'Palermo'), 'Player Name'] =  'Mamadou Coulibaly_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Mamadou Coulibaly') & (big_5_all_player_data_fbref['Club'] == 'Monaco'), 'Player Name'] =  'Mamadou Coulibaly_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Marquinhos') & (big_5_all_player_data_fbref['Club'] == 'Paris Saint-Germain'), 'Player Name'] =  'Marquinhos_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Marquinhos') & (big_5_all_player_data_fbref['Club'] == 'Fluminense'), 'Player Name'] =  'Marquinhos_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Rodri') & (big_5_all_player_data_fbref['Club'] == 'Manchester City'), 'Player Name'] =  'Rodri_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Rodri') & (big_5_all_player_data_fbref['Club'] == 'Real Betis'), 'Player Name'] =  'Rodri_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Stefan Mitrović') & (big_5_all_player_data_fbref['Club'] == 'Verona'), 'Player Name'] =  'Stefan Mitrović_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Stefan Mitrović') & (big_5_all_player_data_fbref['Club'] == 'Gent'), 'Player Name'] =  'Stefan Mitrović_2',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Vitinha') & (big_5_all_player_data_fbref['Club'] == 'Genoa'), 'Player Name'] =  'Vitinha_1',
+big_5_all_player_data_fbref.loc[(big_5_all_player_data_fbref['Player Name'] ==  'Vitinha') & (big_5_all_player_data_fbref['Club'] == 'Paris Saint-Germain'), 'Player Name'] =  'Vitinha_2',
+
+big_5_all_player_data_fbref = big_5_all_player_data_fbref.drop('Position', axis=1)
+
+def convert_percentage(value):
+    if isinstance(value, str) and value.endswith('%'):
+        return float(value.replace('%', '').replace('.', '')) / 100
+    return value
+
+big_5_all_player_data_fbref = big_5_all_player_data_fbref.applymap(convert_percentage)
+
+
+big_5_all_player_data_fbref.to_csv('all_players_scouting_report.csv', index=False)
 
 print("Done")
 

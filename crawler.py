@@ -1,41 +1,41 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-def crawl_print_address(url):
-    """
-    Crawls the given URL and prints all URLs starting with '/en/players' 
-    found in the HTML.
-
-    Args:
-        url (str): The URL to crawl.
-
-    Returns:
-        None
-    """
-    # Initialize the WebDriver 
-    driver = webdriver.Chrome()
-    driver.get(url)
-
-    # Wait for the page to load completely 
-    driver.implicitly_wait(10)
-
-    # Get the page source after JavaScript execution
-    html = driver.page_source
-
-    # Parse the HTML content
-    soup = BeautifulSoup(html, 'html.parser')
-
-    # Find all links starting with '/en/players/'
-    for link in soup.find_all('a', href=True):
-        href = link.get('href')
-        if href.startswith('/en/players/'):
-            print(href)
-
-    # Close the WebDriver
-    driver.quit()
-
-crawl_print_address('https://fbref.com/en/comps/Big5/stats/players/Big-5-European-Leagues-Stats')
-
+# def crawl_print_address(url):
+#     """
+#     Crawls the given URL and prints all URLs starting with '/en/players'
+#     found in the HTML.
+#
+#     Args:
+#         url (str): The URL to crawl.
+#
+#     Returns:
+#         None
+#     """
+#     # Initialize the WebDriver
+#     driver = webdriver.Chrome()
+#     driver.get(url)
+#
+#     # Wait for the page to load completely
+#     driver.implicitly_wait(10)
+#
+#     # Get the page source after JavaScript execution
+#     html = driver.page_source
+#
+#     # Parse the HTML content
+#     soup = BeautifulSoup(html, 'html.parser')
+#
+#     # Find all links starting with '/en/players/'
+#     for link in soup.find_all('a', href=True):
+#         href = link.get('href')
+#         if href.startswith('/en/players/'):
+#             print(href)
+#
+#     # Close the WebDriver
+#     driver.quit()
+#
+# # crawl_print_address('https://fbref.com/en/comps/Big5/stats/players/Big-5-European-Leagues-Stats')
+# print()
 
 def crawl_save_address(url, filename):
     """
@@ -123,3 +123,26 @@ write_odd_rows_to_new_file("players.txt", "all_players.txt")
 
 import os
 os.remove('players.txt')
+
+### remove duplicate links
+
+def remove_duplicates_preserving_order(file_name):
+    with open(file_name, 'r') as file:
+        urls = file.readlines()
+
+    unique_urls = []
+    seen = set()
+    for url in urls:
+        if url not in seen:
+            unique_urls.append(url)
+            seen.add(url)
+
+    with open(file_name, 'w') as file:
+        file.writelines(unique_urls)
+
+file_name = 'all_players_URL.txt'
+remove_duplicates_preserving_order(file_name)
+
+print('Done. File saved. Duplicates removed')
+
+
