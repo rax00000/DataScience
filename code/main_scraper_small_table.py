@@ -114,6 +114,14 @@ player_stats_df = player_stats_df.sort_values(by=['Player Name', 'Minutes'], asc
 # Aggregate data: keep the first entry for columns like 'Age', 'Position', 'League' where the max 'Minutes' row is wanted
 # and sum the numerical stats like 'Minutes', 'Starts', 'Goals', etc.
 
+# Columns to convert to float
+columns_to_convert = ['Matches', 'Starts', 'Minutes', 'Goals', 'Assists', 'Penalty_made', 'Penalty_attempted']
+
+# Convert columns to numeric, coercing errors
+for column in columns_to_convert:
+    player_stats_df[column] = pd.to_numeric(player_stats_df[column], errors='coerce')
+
+# Now perform the aggregation
 aggregated_df = player_stats_df.groupby('Player Name').agg({
     'Nationality': 'first',
     'Position': 'first',
@@ -128,8 +136,14 @@ aggregated_df = player_stats_df.groupby('Player Name').agg({
     'Penalty_attempted': 'sum'
 }).reset_index()
 
+replacements = {
+    'FW,DF': 'DF,FW',
+    'DF,MF': 'MF,DF',
+    'MF,FW': 'FW,MF'
+}
+aggregated_df['Position'] = aggregated_df['Position'].replace(replacements)
 
 print(aggregated_df['Player Name'].is_unique)
 
-aggregated_df.to_csv('player_stats_small_table_clean.csv', index = False)
+aggregated_df.to_csv('data/player_stats_small_table_clean.csv', index = False)
 print('Done')
