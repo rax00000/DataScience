@@ -1,8 +1,8 @@
 import pandas as pd
 import re
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
+# import seaborn as sns
+# import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -16,7 +16,7 @@ final = pd.read_csv("data/merged_data_for_analysis.csv")
 # columns 'Nationality' and 'Club' becuase of too many unique categories
 for idx, col in enumerate(final.columns):
     print(f"Index: {idx}, Column Name: {col}")
-columns_to_delete_indices = [0, 2, 13, 17]
+columns_to_delete_indices = [0, 1, 2, 13, 17]
 all_indices = list(range(len(final.columns)))
 remaining_indices = [i for i in all_indices if i not in columns_to_delete_indices]
 final = final.iloc[:, remaining_indices]
@@ -74,10 +74,10 @@ print(final.describe(include='all'))
 # Additional EDA steps
 # Correlation Matrix (numerical variables)
 # Begin with corr. matrix as some variables are likely highly correlated
-correlation_matrix = final.drop(columns = ['position', 'league']).corr()
-plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
-plt.title('Correlation Matrix')
+# correlation_matrix = final.drop(columns = ['position', 'league']).corr()
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+# plt.title('Correlation Matrix')
 # plt.show()
 
 # Implement principal component analysis to compline highly corr. variables 
@@ -105,26 +105,26 @@ print(final.columns)
 # Rest of PCA components will be extracted after splitting the data into Goalkeepers and Non-Goalkeepers 
 
 # Distribution of numerical variables
-final.hist(bins=30, figsize=(15, 10))
-plt.suptitle('Histograms of Numerical Variables')
+# final.hist(bins=30, figsize=(15, 10))
+# plt.suptitle('Histograms of Numerical Variables')
 # plt.show()
 
 # Distribution of categorical variables
 categorical_columns = final.select_dtypes(include=['category', 'object']).columns
-for col in categorical_columns:
-    sns.countplot(y=col, data=final)
-    plt.title(f'Countplot of {col}')
+# for col in categorical_columns:
+    # sns.countplot(y=col, data=final)
+    # plt.title(f'Countplot of {col}')
     # plt.show()
 
 # Box Plots
-sns.boxplot(x='league', y='annual_wage', data=final)
-plt.title('Box Plot of Anual Wage by League')
-plt.xticks(rotation=90)
+# sns.boxplot(x='league', y='annual_wage', data=final)
+# plt.title('Box Plot of Anual Wage by League')
+# plt.xticks(rotation=90)
 # plt.show()
 
-sns.boxplot(x='position', y='annual_wage', data=final)
-plt.title('Box Plot of Anual Wage by Position')
-plt.xticks(rotation=90)
+# sns.boxplot(x='position', y='annual_wage', data=final)
+# plt.title('Box Plot of Anual Wage by Position')
+# plt.xticks(rotation=90)
 # plt.show()
 
 # Outlier detection (for 'annual_wage')
@@ -141,4 +141,4 @@ final_no_outliers = final[~outliers]
 
 
 # Storing the clean data for modelling
-final_no_outliers.to_csv('player_stats_final_FINAL000.csv', index=False)
+final_no_outliers.to_csv('data/player_stats_final.csv', index=False)
