@@ -73,4 +73,4 @@ for col in ['Gradient Boosting Prediction', 'SVR Prediction']:
     results_df[col] = results_df[col].apply(lambda x: f'{x:.2f}')
 
 # Save the results to a CSV file
-results_df.to_csv("prototype/player_salary_predictions.csv", index=False)
+results_df.to_csv("data/player_salary_predictions_final.csv", index=False)

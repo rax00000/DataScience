@@ -7,7 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 # Importing merged data 
-final = pd.read_csv("data/merged_data_for_analysis.csv")
+final = pd.read_csv("merged_data_for_analysis.csv")
 
 # Deleting specific columns:
 # first column, as it is a counter 
@@ -74,10 +74,10 @@ print(final.describe(include='all'))
 # Additional EDA steps
 # Correlation Matrix (numerical variables)
 # Begin with corr. matrix as some variables are likely highly correlated
-correlation_matrix = final.drop(columns = ['position', 'league']).corr()
-plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
-plt.title('Correlation Matrix')
+# correlation_matrix = final.drop(columns = ['position', 'league']).corr()
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+# plt.title('Correlation Matrix')
 # plt.show()
 
 # Implement principal component analysis to compline highly corr. variables 
@@ -105,27 +105,27 @@ print(final.columns)
 # Rest of PCA components will be extracted after splitting the data into Goalkeepers and Non-Goalkeepers 
 
 # Distribution of numerical variables
-final.hist(bins=30, figsize=(15, 10))
-plt.suptitle('Histograms of Numerical Variables')
-# plt.show()
+# final.hist(bins=30, figsize=(15, 10))
+# plt.suptitle('Histograms of Numerical Variables')
+# # plt.show()
 
 # Distribution of categorical variables
-categorical_columns = final.select_dtypes(include=['category', 'object']).columns
-for col in categorical_columns:
-    sns.countplot(y=col, data=final)
-    plt.title(f'Countplot of {col}')
-    # plt.show()
+# categorical_columns = final.select_dtypes(include=['category', 'object']).columns
+# for col in categorical_columns:
+#     sns.countplot(y=col, data=final)
+#     plt.title(f'Countplot of {col}')
+#     # plt.show()
 
-# Box Plots
-sns.boxplot(x='league', y='annual_wage', data=final)
-plt.title('Box Plot of Anual Wage by League')
-plt.xticks(rotation=90)
-# plt.show()
-
-sns.boxplot(x='position', y='annual_wage', data=final)
-plt.title('Box Plot of Anual Wage by Position')
-plt.xticks(rotation=90)
-# plt.show()
+# # Box Plots
+# sns.boxplot(x='league', y='annual_wage', data=final)
+# plt.title('Box Plot of Anual Wage by League')
+# plt.xticks(rotation=90)
+# # plt.show()
+#
+# sns.boxplot(x='position', y='annual_wage', data=final)
+# plt.title('Box Plot of Anual Wage by Position')
+# plt.xticks(rotation=90)
+# # plt.show()
 
 # Outlier detection (for 'annual_wage')
 Q1 = final['annual_wage'].quantile(0.25)

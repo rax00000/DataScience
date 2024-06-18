@@ -84,37 +84,3 @@ correlation_pairs['Absolute Correlation'] = correlation_pairs['Correlation'].abs
 ranked_pairs = correlation_pairs.sort_values(by='Absolute Correlation', ascending=False).reset_index(drop=True)
 
 ranked_pairs.to_excel('EDA/correlation_pairs_ranked.xlsx')
-
-import pandas as pd
-import plotly.express as px
-
-# Assuming 'data' is your DataFrame
-# Replace this with the actual DataFrame load code if needed
-# data = pd.read_csv('your_data.csv')
-
-import pandas as pd
-import plotly.express as px
-
-# Assuming 'data' is your DataFrame
-# Replace this with the actual DataFrame load code if needed
-# data = pd.read_csv('your_data.csv')
-
-# Get unique leagues
-leagues = data['League'].unique()
-
-# Define the upper threshold
-upper_threshold = 25_000_000
-
-# Loop through each league and create a box plot
-for league in leagues:
-    # Filter data for the current league
-    league_data = data[data['League'] == league]
-
-    # Create the box plot with y-axis range
-    fig = px.box(league_data, y='Annual wage in EUR', title=f'Annual Wage in EUR for {league}')
-    fig.update_yaxes(range=[0, upper_threshold])  # Set the y-axis range to have a maximum of 25 million
-
-    # Save the plot as HTML
-    fig.write_html(f"{league}_box.html")
-
-print("Box plots saved successfully.")
